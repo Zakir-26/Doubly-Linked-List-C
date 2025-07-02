@@ -19,6 +19,8 @@ void addEnd(struct node** head, int data);
 
 int count(struct node *head);
 
+void addPos(struct node **head, int data);
+
 int main(void)
 {
 
@@ -36,7 +38,11 @@ int main(void)
 
     print(head);
 
+    addPos(&head, 108);
+
     int res = count(head);
+
+    print(head);
 
     printf("Total number of nodes in a list are: %d\n", res);
 
@@ -100,8 +106,12 @@ void addEnd(struct node** head, int data)
 
     struct node* temp = *head;
 
+    //if no element in a listt
+
     if(*head == NULL)
     {
+
+        //item added at the begining of the list
         *head = ptr;
 
     }
@@ -136,5 +146,38 @@ int count(struct node *head)
     }
 
     return num;
+
+}
+
+//function to add node at any position
+
+void addPos(struct node **head, int data)
+{
+    int loc;
+    printf("At what location you want to insert a node: ");
+    scanf("%d", &loc);
+
+    int nodes = count(*head);
+
+    if (loc > nodes)
+    {
+        printf("Number should be smaller then total number of nodes\n");
+        exit(1);
+    }
+    struct node *temp = createNode(data);
+    struct node *ptr = *head;
+
+    int count = 1;
+
+    while(count < loc)
+    {
+        ptr = ptr->next;
+        count++;
+    }
+
+    temp->next = ptr->next;
+    ptr->next->prev = temp;
+    ptr->next = temp;
+    temp->prev = ptr;
 
 }
